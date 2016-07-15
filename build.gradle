@@ -12,6 +12,7 @@ buildscript {
 
 apply plugin: 'java'
 apply plugin: 'spring-boot'
+apply plugin: 'jacoco'
 
 jar {
   baseName = 'server-api'
@@ -41,3 +42,11 @@ dependencies {
 task wrapper(type: Wrapper) {
   gradleVersion = '2.14'
 }
+
+jacocoTestReport {
+  reports {
+    xml.enabled true
+  }
+}
+
+check.dependsOn jacocoTestReport
