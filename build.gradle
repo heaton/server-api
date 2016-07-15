@@ -1,0 +1,41 @@
+group 'me.heaton'
+version '1.0-SNAPSHOT'
+
+buildscript {
+  repositories {
+    mavenCentral()
+  }
+  dependencies {
+    classpath("org.springframework.boot:spring-boot-gradle-plugin:1.3.0.RELEASE")
+  }
+}
+
+apply plugin: 'java'
+
+jar {
+  baseName = 'server-api'
+  version =  '1.0-SNAPSHOT'
+}
+
+repositories {
+  mavenCentral()
+  jcenter()
+}
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+dependencies {
+  compile 'com.google.guava:guava:19.0',
+      'com.google.code.gson:gson:2.5',
+      'joda-time:joda-time:2.9.1',
+      'org.springframework.boot:spring-boot-web:1.3.6.RELEASE',
+      'com.google.code.findbugs:jsr305:3.0.1'
+  testCompile 'junit:junit:4.+',
+      'org.mockito:mockito-core:2.+',
+      'org.springframework.boot:spring-boot-web-test:1.3.6.RELEASE'
+}
+
+task wrapper(type: Wrapper) {
+  gradleVersion = '2.14'
+}
