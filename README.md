@@ -6,4 +6,7 @@
 
 ## Resources
 
-[Snap-CI](https://snap-ci.com/automation-test-training/server-api)
+- [JUnit](http://junit.org/junit4/)
+- [Mockito](http://mockito.org/)
+- [Rest-Assured](http://rest-assured.io/)
+- [Snap-CI](https://snap-ci.com/automation-test-training/server-api)
