@@ -39,14 +39,19 @@ dependencies {
       'io.rest-assured:rest-assured:3.0.0'
 }
 
-task wrapper(type: Wrapper) {
-  gradleVersion = '2.14'
+jacoco {
+  toolVersion = "0.7.7.201606060606"
 }
 
 jacocoTestReport {
   reports {
     xml.enabled true
+    html.enabled = true
   }
 }
 
 check.dependsOn jacocoTestReport
+
+task wrapper(type: Wrapper) {
+  gradleVersion = '2.14'
+}
