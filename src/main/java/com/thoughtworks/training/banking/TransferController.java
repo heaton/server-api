@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -29,25 +30,28 @@ public class TransferController {
 
   @RequestMapping(method = RequestMethod.POST)
   public void transfer(@RequestBody Transaction transaction) {
-    TransactionAccount transactionFromAccount = transaction.getFromAccount();
-    Optional<Account> fromAccount = accountStorage.findByAccountNumber(transactionFromAccount.getAccountNumber());
-    TransactionAccount transactionToAccount = transaction.getToAccount();
-    Optional<Account> toAccount = accountStorage.findByAccountNumber(transactionToAccount.getAccountNumber());
+    TransactionAccount transactionFrom = transaction.getFrom();
+    Account fromAccount = accountStorage.findByAccountNumber(transactionFrom.getAccountNumber());
+    TransactionAccount transactionTo = transaction.getTo();
+    Account toAccount = accountStorage.findByAccountNumber(transactionTo.getAccountNumber());
 
-    Optional<Balance> fromBalance = fromAccount.flatMap(account ->
-        account.getBalances()
+    List<Balance> fromAccountBalances = fromAccount.getBalances();
+    Optional<Balance> fromBalance = fromAccountBalances
             .stream()
             .filter(balance ->
-                balance.getCurrency().equals(transactionFromAccount.getCurrency())).findFirst());
-    Optional<Balance> toBalance = toAccount.flatMap(account ->
-        account.getBalances()
+                balance.getCurrency().equals(transactionFrom.getCurrency())).findFirst();
+
+    List<Balance> toAccountBalances = toAccount.getBalances();
+    Optional<Balance> toBalance = toAccountBalances
             .stream()
             .filter(balance ->
-                balance.getCurrency().equals(transactionToAccount.getCurrency())).findFirst());
+                balance.getCurrency().equals(transactionTo.getCurrency())).findFirst();
 
     if (fromBalance.isPresent() && toBalance.isPresent()) {
-      fromAccount.get().getBalances().set(0, new Balance(fromAccount.get().getId(), fromBalance.get().getCurrency(), fromBalance.get().getAmount().subtract(transaction.getAmount())));
-      toAccount.get().getBalances().set(0, new Balance(toAccount.get().getId(), toBalance.get().getCurrency(), toBalance.get().getAmount().add(transaction.getAmount())));
+      Balance balance = fromBalance.get();
+      fromAccountBalances.set(fromAccountBalances.indexOf(balance), new Balance(fromAccount.getId(), balance.getCurrency(), balance.getAmount().subtract(transaction.getAmount())));
+      Balance balance1 = toBalance.get();
+      toAccountBalances.set(toAccountBalances.indexOf(balance1), new Balance(toAccount.getId(), balance1.getCurrency(), balance1.getAmount().add(transaction.getAmount())));
     }
   }
 

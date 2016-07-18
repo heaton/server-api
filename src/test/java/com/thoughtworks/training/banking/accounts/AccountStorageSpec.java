@@ -12,6 +12,7 @@ import java.math.BigDecimal;
 
 import static org.hamcrest.CoreMatchers.hasItems;
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.assertThat;
 
 public class AccountStorageSpec {
@@ -46,12 +47,12 @@ public class AccountStorageSpec {
   @SuppressWarnings("OptionalGetWithoutIsPresent")
   @Test
   public void should_get_account_by_given_existing_account_number() {
-    assertThat(accountStorage.findByAccountNumber("3001").get(), is(getAccount3()));
+    assertThat(accountStorage.findByAccountNumber("3001"), is(getAccount3()));
   }
 
   @Test
   public void should_get_account_by_given_non_existing_account_number() {
-    assertThat(accountStorage.findByAccountNumber("4001").isPresent(), is(false));
+    assertThat(accountStorage.findByAccountNumber("4001"), is(nullValue()));
   }
 
   private Account getAccount3() {

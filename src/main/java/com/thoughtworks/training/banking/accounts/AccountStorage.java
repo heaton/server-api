@@ -4,7 +4,6 @@ import com.thoughtworks.training.banking.model.Account;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class AccountStorage {
@@ -22,7 +21,7 @@ public class AccountStorage {
         .collect(Collectors.toList());
   }
 
-  public Optional<Account> findByAccountNumber(String accountNumber) {
-    return accounts.values().stream().filter(account -> account.getNumber().equals(accountNumber)).findFirst();
+  public Account findByAccountNumber(String accountNumber) {
+    return accounts.get(accountNumber);
   }
 }
