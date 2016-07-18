@@ -32,6 +32,13 @@ public class TransferSpec {
     return new Transaction(fromAccount, toAccount, new BigDecimal(500));
   }
 
+  private Transaction getTransactionWithNonExistingAccount4001() {
+    TransactionAccount fromAccount = new TransactionAccount("4001", "cny");
+    TransactionAccount toAccount = new TransactionAccount("2001", "cny");
+
+    return new Transaction(fromAccount, toAccount, new BigDecimal(500));
+  }
+
   @Test
   public void should_transfer_500_from_1001_to_2001() {
     given().contentType(ContentType.JSON).body(getTransaction()).
@@ -42,5 +49,12 @@ public class TransferSpec {
         .then().log().ifValidationFails()
         .statusCode(200).content("balances[0][0].amount", is(99500),
         "balances[1][0].amount", is(200500));
+  }
+
+  @Test
+  public void should_get_400_if_transfer_500_from_4001_to_2001() {
+    given().contentType(ContentType.JSON).body(getTransactionWithNonExistingAccount4001()).
+        when().post("/transfer").
+        then().statusCode(500).content("message", is("Account number '4001' does not exist!"));
   }
 }

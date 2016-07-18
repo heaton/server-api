@@ -14,9 +14,6 @@ import java.util.List;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 
-/**
- * Created by yqin on 7/18/16.
- */
 public class TransferControllerSpec {
 
   private AccountStorage storage;
@@ -40,6 +37,18 @@ public class TransferControllerSpec {
 
     assertThat(heaton.get(0).getBalances().get(0).getAmount(), is(new BigDecimal(99500)));
     assertThat(heaton.get(1).getBalances().get(0).getAmount(), is(new BigDecimal(200500)));
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void should_get_error_if_transfer_from_non_existing_account() {
+    TransferController transferController = new TransferController(storage);
+    List<Account> heaton = storage.findByUser("heaton");
+
+    TransactionAccount fromAccount = new TransactionAccount("4001", heaton.get(0).getBalances().get(0).getCurrency());
+    TransactionAccount toAccount = new TransactionAccount(heaton.get(1).getNumber(), heaton.get(1).getBalances().get(0).getCurrency());
+
+    Transaction transaction = new Transaction(fromAccount, toAccount, new BigDecimal(500));
+    transferController.transfer(transaction);
   }
 }
 

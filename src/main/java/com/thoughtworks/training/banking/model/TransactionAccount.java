@@ -3,9 +3,6 @@ package com.thoughtworks.training.banking.model;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-/**
- * Created by yqin on 7/18/16.
- */
 public class TransactionAccount {
     private final String accountNumber;
     private final String currency;

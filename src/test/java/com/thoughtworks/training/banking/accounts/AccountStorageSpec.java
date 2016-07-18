@@ -50,7 +50,7 @@ public class AccountStorageSpec {
     assertThat(accountStorage.findByAccountNumber("3001"), is(getAccount3()));
   }
 
-  @Test
+  @Test(expected = IllegalArgumentException.class)
   public void should_get_account_by_given_non_existing_account_number() {
     assertThat(accountStorage.findByAccountNumber("4001"), is(nullValue()));
   }
