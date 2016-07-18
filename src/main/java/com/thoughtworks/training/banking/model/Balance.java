@@ -43,6 +43,11 @@ public class Balance {
   public int hashCode() {
     return Objects.hashCode(accountId, currency, amount);
   }
+
+  public Balance copy(BigDecimal amount) {
+    return new Balance(accountId, currency, amount);
+  }
+
 }
 
 

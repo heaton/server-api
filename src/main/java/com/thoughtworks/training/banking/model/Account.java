@@ -1,25 +1,25 @@
 package com.thoughtworks.training.banking.model;
 
 import com.google.common.base.Objects;
-import com.google.common.collect.Iterables;
-import com.google.common.collect.Lists;
+import org.springframework.util.Assert;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.math.BigDecimal;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class Account {
   private final long id;
   private final String number;
   private final String name;
   private final String username;
-  private final List<Balance> balances;
+  private final Map<String, Balance> balances;
 
   public Account(long id, String number, String name, String username) {
     this.id = id;
     this.number = number;
     this.name = name;
     this.username = username;
-    balances = new ArrayList<>();
+    this.balances = new HashMap<>();
   }
 
   public long getId() {
@@ -39,11 +39,13 @@ public class Account {
   }
 
   public List<Balance> getBalances() {
-    return balances;
+    return balances.values().stream()
+        .sorted((ba1, ba2) -> ba1.getCurrency().compareTo(ba2.getCurrency()))
+        .collect(Collectors.toList());
   }
 
-  public void addBalance(Balance balance) {
-    balances.add(balance);
+  public void update(Balance balance) {
+    balances.put(balance.getCurrency(), balance);
   }
 
   @Override
@@ -62,4 +64,11 @@ public class Account {
   public int hashCode() {
     return Objects.hashCode(id, number, name, username, balances);
   }
+
+  public void update(String currency, BigDecimal amount) {
+    final Balance balance = balances.get(currency);
+    Assert.notNull(balance, "can not find balance in currency " + currency);
+    update(balance.copy(balance.getAmount().add(amount)));
+  }
+
 }

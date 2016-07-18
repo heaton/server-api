@@ -46,20 +46,20 @@ public class AccountStorageSpec {
 
   private Account getAccount3() {
     Account ac3 = new Account(3L, "3001", "Joy", "u3");
-    ac3.addBalance(new Balance(ac3.getId(), "cny", new BigDecimal(20)));
+    ac3.update(new Balance(ac3.getId(), "cny", new BigDecimal(20)));
     return ac3;
   }
 
   private Account getAccount2() {
     Account ac2 = new Account(2L, "2001", "Heaton", "u1");
-    ac2.addBalance(new Balance(ac2.getId(), "cny", new BigDecimal(80)));
+    ac2.update(new Balance(ac2.getId(), "cny", new BigDecimal(80)));
     return ac2;
   }
 
   private Account getAccount1() {
     Account ac1 = new Account(1L, "1001", "Heaton", "u1");
-    ac1.addBalance(new Balance(ac1.getId(), "cny", new BigDecimal(100)));
-    ac1.addBalance(new Balance(ac1.getId(), "usd", new BigDecimal(120)));
+    ac1.update(new Balance(ac1.getId(), "cny", new BigDecimal(100)));
+    ac1.update(new Balance(ac1.getId(), "usd", new BigDecimal(120)));
     return ac1;
   }
 
