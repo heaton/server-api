@@ -20,17 +20,17 @@ public class AccountsSpec {
 
     @Test
     public void should_create_new_account() {
-        given().queryParam("user", "qinyu").queryParam("name", "Yu's account")
-                .when().post("/accounts")
+        given().pathParam("userName","qinyu").queryParam("name", "Yu's account")
+                .when().post("/{userName}/accounts")
                 .then().statusCode(200)
                 .content("userName", is("qinyu"), "name", is("Yu's account"));
     }
 
     @Test
     public void should_get_account_by_user_name() {
-        given().queryParam("user", "qinyu").queryParam("name", "Yu's account").post("/accounts");
-        given().queryParam("user", "qinyu")
-                .when().get("/accounts")
+        given().pathParam("userName", "qinyu").queryParam("name", "Yu's account").post("/{userName}/accounts");
+        given().pathParam("userName", "qinyu")
+                .when().get("/{userName}/accounts")
                 .then().log().ifValidationFails()
                 .statusCode(200).content("size()", is(1),
                 "userName[0]", is("qinyu"),
@@ -39,11 +39,11 @@ public class AccountsSpec {
 
     @Test
     public void should_get_multiple_accounts_by_user_name() {
-        given().queryParam("user", "heaton").queryParam("name", "Heaton's 1st account").post("/accounts");
-        given().queryParam("user", "heaton").queryParam("name", "Heaton's 2nd account").post("/accounts");
+        given().pathParam("userName", "heaton").queryParam("name", "Heaton's 1st account").post("/{userName}/accounts");
+        given().pathParam("userName", "heaton").queryParam("name", "Heaton's 2nd account").post("/{userName}/accounts");
 
-        given().queryParam("user", "heaton")
-                .when().get("/accounts")
+        given().pathParam("userName", "heaton")
+                .when().get("/{userName}/accounts")
                 .then().log().ifValidationFails()
                 .statusCode(200).content("size()", is(2),
                 "userName", hasItems(is("heaton"), is("heaton")),
