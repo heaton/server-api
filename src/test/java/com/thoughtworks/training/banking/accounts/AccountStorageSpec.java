@@ -1,6 +1,5 @@
 package com.thoughtworks.training.banking.accounts;
 
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -42,6 +41,17 @@ public class AccountStorageSpec {
   @Test
   public void should_get_accounts_by_given_username() {
     assertThat(accountStorage.findByUser("u1"), hasItems(getAccount1(), getAccount2()));
+  }
+
+  @SuppressWarnings("OptionalGetWithoutIsPresent")
+  @Test
+  public void should_get_account_by_given_existing_account_number() {
+    assertThat(accountStorage.findByAccountNumber("3001").get(), is(getAccount3()));
+  }
+
+  @Test
+  public void should_get_account_by_given_non_existing_account_number() {
+    assertThat(accountStorage.findByAccountNumber("4001").isPresent(), is(false));
   }
 
   private Account getAccount3() {
