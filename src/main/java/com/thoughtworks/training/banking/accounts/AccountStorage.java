@@ -15,7 +15,10 @@ public class AccountStorage {
   }
 
   public List<Account> findByUser(String username) {
-    return accounts.values().stream().filter(account -> account.getUsername().equals(username)).collect(Collectors.toList());
+    return accounts.values().stream()
+        .filter(account -> account.getUsername().equals(username))
+        .sorted((ac1, ac2) -> Long.compare(ac1.getId(), ac2.getId()))
+        .collect(Collectors.toList());
   }
 
 }

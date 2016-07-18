@@ -9,7 +9,7 @@ import java.util.List;
 
 @CrossOrigin(origins = "*")
 @RestController
-@RequestMapping("/{userName}/accounts")
+@RequestMapping("/{username}/accounts")
 public class AccountController {
 
   private final AccountStorage accountStorage;
@@ -20,8 +20,8 @@ public class AccountController {
   }
 
   @RequestMapping(method = RequestMethod.GET)
-  public List<Account> getAccountByUserName(@PathVariable String userName) {
-    return accountStorage.findByUser(userName);
+  public List<Account> getAccountByUserName(@PathVariable String username) {
+    return accountStorage.findByUser(username);
   }
 
 }
