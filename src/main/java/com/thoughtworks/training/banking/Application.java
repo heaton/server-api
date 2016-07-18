@@ -1,5 +1,7 @@
 package com.thoughtworks.training.banking;
 
+import com.thoughtworks.training.banking.accounts.AccountStorage;
+import com.thoughtworks.training.banking.accounts.AccountStorageFactory;
 import com.thoughtworks.training.banking.common.IdGenerator;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -17,6 +19,11 @@ public class Application {
   @Bean
   public IdGenerator getAtomicLong() {
     return new IdGenerator();
+  }
+
+  @Bean
+  public AccountStorage getAccountStorage() {
+    return new AccountStorageFactory().generate();
   }
 
 }

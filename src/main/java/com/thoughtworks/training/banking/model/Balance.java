@@ -1,42 +1,48 @@
 package com.thoughtworks.training.banking.model;
 
+import com.google.common.base.Objects;
+
 import java.math.BigDecimal;
 
-/**
- * Created by yqin on 7/18/16.
- */
 public class Balance {
-    private final long accountId;
-    private final String currency;
 
-    private BigDecimal amount;
+  private final long accountId;
+  private final String currency;
 
-    public long getAccountId() {
-        return accountId;
-    }
+  private final BigDecimal amount;
 
-    public String getCurrency() {
-        return currency;
-    }
+  public Balance(long accountId, String currency, BigDecimal amount) {
+    this.accountId = accountId;
+    this.currency = currency;
+    this.amount = amount;
+  }
 
-    public BigDecimal getAmount() {
-        return amount;
-    }
+  public long getAccountId() {
+    return accountId;
+  }
 
-    public void setAmount(BigDecimal amount) {
-        this.amount = amount;
-    }
+  public String getCurrency() {
+    return currency;
+  }
 
-    public Balance(long accountId, String currency) {
-        this.accountId = accountId;
-        this.currency = currency;
-    }
+  public BigDecimal getAmount() {
+    return amount;
+  }
 
-    public Balance(long accountId, String currency, BigDecimal amount) {
-        this.accountId = accountId;
-        this.currency = currency;
-        this.amount = amount;
-    }
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    Balance balance = (Balance) o;
+    return accountId == balance.accountId &&
+        Objects.equal(currency, balance.currency) &&
+        Objects.equal(amount, balance.amount);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hashCode(accountId, currency, amount);
+  }
 }
 
 
