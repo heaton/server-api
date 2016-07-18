@@ -14,6 +14,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import java.math.BigDecimal;
 
 import static io.restassured.RestAssured.given;
+import static org.hamcrest.CoreMatchers.is;
 
 /**
  * Created by yqin on 7/18/16.
@@ -32,7 +33,14 @@ public class TransferSpec {
   }
 
   @Test
-  public void  should_transfer_500_from_1001_to_2001(){
-    given().contentType(ContentType.JSON).body(getTransaction()).log().everything().when().post("/transfer").then().log().everything().statusCode(200);
+  public void should_transfer_500_from_1001_to_2001() {
+    given().contentType(ContentType.JSON).body(getTransaction()).
+        when().post("/transfer").
+        then().statusCode(200);
+
+    given().pathParam("username", "heaton").when().get("/{username}/accounts")
+        .then().log().ifValidationFails()
+        .statusCode(200).content("balances[0][0].amount", is(99500),
+        "balances[1][0].amount", is(200500));
   }
 }
